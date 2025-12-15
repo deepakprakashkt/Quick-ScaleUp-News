@@ -134,22 +134,66 @@
 // export default CategorySection;
 
 
+import { useNavigate } from "react-router-dom";
 
+function CategorySection({ title, posts = [] }) {
+  const navigate = useNavigate();
 
-import PostCard from "./PostCard";
-
-function CategorySection({ title, posts }) {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
-      <h2 className="text-2xl font-bold mb-6">{title}</h2>
+    <section className="max-w-7xl mx-auto px-6 py-14">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold">{title}</h2>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {posts.map(post => (
-          <PostCard key={post.id} {...post} category={title} />
-        ))}
+        <button
+          onClick={() => navigate(`/${title.toLowerCase()}`)}
+          className="text-red-600 font-semibold hover:underline"
+        >
+          View All
+        </button>
       </div>
+
+      {/* EMPTY / LOADING */}
+      {posts.length === 0 ? (
+        <div className="bg-white p-8 rounded-lg shadow text-center text-gray-500">
+          News loading… Please wait
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-3 gap-8">
+          {posts.map((item) => (
+            <div
+              key={item.id}
+              onClick={() =>
+                navigate(`/news/${title.toLowerCase()}/${item.id}`, {
+                  state: item,
+                })
+              }
+              className="cursor-pointer bg-white rounded-xl shadow hover:shadow-lg transition"
+            >
+              <img
+                src={item.image || "/news-placeholder.png"}
+                alt={item.title}
+                onError={(e) => {
+                  e.currentTarget.src = "/news-placeholder.png";
+                }}
+                className="h-52 w-full object-cover rounded-t-xl"
+              />
+
+              <div className="p-4">
+                <h3 className="font-bold line-clamp-2">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-sm mt-2 line-clamp-3">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
 
 export default CategorySection;
+
+
