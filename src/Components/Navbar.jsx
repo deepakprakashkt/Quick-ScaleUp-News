@@ -572,8 +572,8 @@ function Navbar() {
         {/* LOGO */}
         <Link to="/" className="text-2xl font-extrabold">
           <span className="text-red-600">Quick</span>
-          <span className="text-black">ScaleUp</span>
-          <span className="text-red-600">News</span>
+          <span className="text-green-600">ScaleUp</span>
+          <span className="text-black-600">News</span>
         </Link>
 
         {/* DESKTOP MENU */}
